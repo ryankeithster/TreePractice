@@ -21,6 +21,8 @@ public:
     ~Node()
     {
         std::cout << "~Node@" << this << std::endl;
+        left.reset();
+        right.reset();
     }
 };
 
@@ -82,16 +84,16 @@ public:
                 children.pop();
                 
                 left = std::make_unique<Node<T>>(nodeValues[i]);
+                currentNode->left = std::move(left);
                 children.emplace(std::make_unique<Node<T>>(nodeValues[i++]));
 
                 if (i < numOfNodes)
                 {
                     right = std::make_unique<Node<T>>(nodeValues[i]);
+                    currentNode->right = std::move(right);
                     children.emplace(std::make_unique<Node<T>>(nodeValues[i++]));
                 }
-
-                currentNode->left = std::move(left);
-                currentNode->right = std::move(right);               
+               
             }
         }
     }
