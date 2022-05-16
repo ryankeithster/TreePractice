@@ -15,12 +15,16 @@ public:
 
     Node(T& val) : data(val)
     {
-
+#ifdef _DEBUG
+        std::cout << "Node{" << val << "}@" << this << std::endl;
+#endif
     }
 
     ~Node()
     {
+#ifdef _DEBUG
         std::cout << "~Node@" << this << std::endl;
+#endif
         left.reset();
         right.reset();
     }
@@ -32,9 +36,18 @@ class BinaryTree
 public:
     std::unique_ptr<Node<T>> root;
 
+    BinaryTree()
+    {
+#ifdef _DEBUG
+        std::cout << "BinaryTree@" << this << std::endl;
+#endif
+    }
+
     ~BinaryTree()
     {
+#ifdef _DEBUG
         std::cout << "~BinaryTree@" << this << std::endl;
+#endif
         root.reset();
     }
 
