@@ -13,6 +13,7 @@
 
 #include "BinaryTree.h"
 #include "BinaryTreeClassic.h"
+#include "BinaryTreeShared.h"
 
 /// <summary>
 /// Construct a Binary Tree from the specified vector. This Binary Tree uses
@@ -84,6 +85,19 @@ void makeClassicTreeStressTest(std::vector<int>& v)
     }
 }
 
+/// <summary>
+/// Construct a traditional pointer Binary Tree from the specified vector 10000 times.
+/// </summary>
+/// <param name="v"></param>
+void makeSharedTreeStressTest(std::vector<int>& v)
+{
+    for (int i = 0; i < 1e4; ++i)
+    {
+        BinaryTreeShared<int> t1;
+        t1.makeTree(v);
+    }
+}
+
 int main()
 {
     const bool makeLocal = false;
@@ -108,8 +122,14 @@ int main()
         stop = std::chrono::high_resolution_clock::now();
         auto durationManaged = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 
+        start = std::chrono::high_resolution_clock::now();
+        makeSharedTreeStressTest(v1);
+        stop = std::chrono::high_resolution_clock::now();
+        auto durationShared = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+
         std::cout << "Classic execution time (ms): " << durationClassic.count() << std::endl;
         std::cout << "Managed execution time (ms): " << durationManaged.count() << std::endl;
+        std::cout << " Shared execution time (ms): " << durationShared.count() << std::endl;
     }
     else
     {
